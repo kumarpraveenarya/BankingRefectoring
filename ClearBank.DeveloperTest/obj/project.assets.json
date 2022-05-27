@@ -467,11 +467,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Interview\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest.csproj",
+      "projectUniqueName": "C:\\Interview\\clearbank\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest.csproj",
       "projectName": "ClearBank.DeveloperTest",
-      "projectPath": "C:\\Interview\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest.csproj",
+      "projectPath": "C:\\Interview\\clearbank\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest.csproj",
       "packagesPath": "C:\\Users\\aryaj\\.nuget\\packages\\",
-      "outputPath": "C:\\Interview\\ClearBank.DeveloperTest\\ClearBank.DeveloperTest\\obj\\",
+      "outputPath": "C:\\Interview\\clearbank\\ClearBank.DeveloperTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
