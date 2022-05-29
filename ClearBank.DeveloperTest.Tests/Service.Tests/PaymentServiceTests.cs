@@ -36,6 +36,11 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
         [Test]
         public void MakePayment_Should_Return_Response_False_if_Request_not_Valid()
         {
+            _accountService.Setup(x => x.GetAccount("123")).Returns(new Account()
+            {
+                AccountNumber = "123"
+            });
+
             _paymentValidator
                 .Setup(validator => validator.IsValid(It.IsAny<MakePaymentRequest>(), It.IsAny<Account>()))
                 .Returns(false);
@@ -44,7 +49,7 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
                 .Returns(_paymentValidator.Object);
 
 
-            var result = _paymentService.MakePayment(new MakePaymentRequest());
+            var result = _paymentService.MakePayment(new MakePaymentRequest{DebtorAccountNumber = "123"});
 
 
             Assert.IsFalse(result.Success);
@@ -53,8 +58,12 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
         }
 
         [Test]
-        public void MakePayment_Should_Return_Response_True_If_Trquest_is_Valid()
+        public void MakePayment_Should_Return_Response_True_If_Request_is_Valid()
         {
+            _accountService.Setup(x => x.GetAccount("123")).Returns(new Account()
+            {
+                AccountNumber = "123"
+            });
 
             _paymentValidator
                 .Setup(validator => validator.IsValid(It.IsAny<MakePaymentRequest>(), It.IsAny<Account>()))
@@ -64,13 +73,27 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
                 .Returns(_paymentValidator.Object);
 
 
-            var result = _paymentService.MakePayment(new MakePaymentRequest());
+            var result = _paymentService.MakePayment(new MakePaymentRequest{ DebtorAccountNumber = "123" });
 
 
             Assert.IsTrue(result.Success);
 
             _accountService.Verify(store => store.UpdateAccount(It.IsAny<Account>(), It.IsAny<MakePaymentRequest>()), Times.Once);
 
+        }
+
+        [Test]
+        public void MakePayment_Should_Throw_Exception_If_Payment_Scheme_is_not_Valid()
+        {
+            _accountService.Setup(x => x.GetAccount("123")).Returns(new Account()
+            {
+                AccountNumber = "123"
+            });
+
+           _paymentValidatorFactory.Setup(factory => factory.GetInstance(It.IsAny<MakePaymentRequest>()))
+                .Returns(() => throw new PaymentSchemeNotFoundException("test"));
+
+           Assert.Throws<PaymentSchemeNotFoundException>(() => _paymentService.MakePayment(new MakePaymentRequest { DebtorAccountNumber = "123", PaymentScheme = (PaymentScheme)(-1)}));
         }
     }
 }
