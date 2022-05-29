@@ -1,4 +1,5 @@
-﻿using ClearBank.DeveloperTest.Types;
+﻿using ClearBank.DeveloperTest.Exceptions;
+using ClearBank.DeveloperTest.Types;
 using ClearBank.DeveloperTest.Validators;
 using NUnit.Framework;
 
@@ -39,6 +40,12 @@ namespace ClearBank.DeveloperTest.Tests.Validators.Tests
             Assert.IsInstanceOf<ChapsValidator>(result);
         }
 
+        [Test]
+        public void GetInstance_Should_ThrowsException()
+        {
+            Assert.Throws<PaymentSchemeNotFoundException>(() =>
+                _paymentValidatorFactory.GetInstance(new MakePaymentRequest { PaymentScheme = (PaymentScheme)(-1) }));
+        }
 
     }
 }

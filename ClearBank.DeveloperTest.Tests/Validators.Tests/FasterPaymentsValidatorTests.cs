@@ -18,7 +18,6 @@ namespace ClearBank.DeveloperTest.Tests.Validators.Tests
         [Test]
         public void IsValid_Should_Return_True_When_Account_Has_Sufficient_Funds()
         {
-
             var result = _fasterPaymentsValidator.IsValid(
                 new MakePaymentRequest { Amount = 20 },
                 new Account
@@ -27,14 +26,12 @@ namespace ClearBank.DeveloperTest.Tests.Validators.Tests
                     Balance = 30
                 });
 
-
             Assert.IsTrue(result);
         }
 
         [Test]
         public void IsValid_Should_Return_False_When_Account_Has_Insufficient_Funds()
         {
-
             var result = _fasterPaymentsValidator.IsValid(
                 new MakePaymentRequest { Amount = 20 },
                 new Account
@@ -43,14 +40,12 @@ namespace ClearBank.DeveloperTest.Tests.Validators.Tests
                     Balance = 19
                 });
 
-
             Assert.IsFalse(result);
         }
 
         [Test]
         public void IsValid_Should_Return_False_When_Account_Is_Not_Allowed_In_Payment_Scheme_FasterPayments()
         {
-
             var result = _fasterPaymentsValidator.IsValid(
                 new MakePaymentRequest { Amount = 20 },
                 new Account
@@ -59,18 +54,15 @@ namespace ClearBank.DeveloperTest.Tests.Validators.Tests
                     Balance = 30
                 });
 
-
             Assert.IsFalse(result);
         }
 
         [Test]
         public void IsValid_Should_Return_False_When_Account_Is_Null()
         {
-
             var result = _fasterPaymentsValidator.IsValid(
                 new MakePaymentRequest { Amount = 20 },
                 null);
-
 
             Assert.IsFalse(result);
         }

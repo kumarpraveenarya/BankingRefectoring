@@ -1,6 +1,6 @@
-﻿using ClearBank.DeveloperTest.Services.Interfaces;
+﻿using ClearBank.DeveloperTest.Exceptions;
+using ClearBank.DeveloperTest.Services.Interfaces;
 using ClearBank.DeveloperTest.Types;
-using ClearBank.DeveloperTest.Validators;
 using ClearBank.DeveloperTest.Validators.Interfaces;
 
 namespace ClearBank.DeveloperTest.Services
@@ -19,6 +19,11 @@ namespace ClearBank.DeveloperTest.Services
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
             var account = _accountService.GetAccount(request.DebtorAccountNumber);
+
+            if (account == null)
+            {
+                throw new DebtorAccountNotFoundException($"The debtor account with id '{request.DebtorAccountNumber}' was not found.");
+            }
 
             var paymentValidator = _paymentValidatorFactory.GetInstance(request);
 

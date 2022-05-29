@@ -1,7 +1,7 @@
-﻿using ClearBank.DeveloperTest.Services;
+﻿using ClearBank.DeveloperTest.Exceptions;
+using ClearBank.DeveloperTest.Services;
 using ClearBank.DeveloperTest.Services.Interfaces;
 using ClearBank.DeveloperTest.Types;
-using ClearBank.DeveloperTest.Validators;
 using ClearBank.DeveloperTest.Validators.Interfaces;
 using Moq;
 using NUnit.Framework;
@@ -26,9 +26,16 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
         }
 
         [Test]
-        public void MakePayment_Should_Return_Response_False()
+        public void MakePayment_Should_Throw_Exception_if_Account_is_Invalid()
         {
+            _accountService.Setup(x => x.GetAccount("invalid account")).Returns(() => null);
+            Assert.Throws<DebtorAccountNotFoundException>(() => _paymentService.MakePayment(new MakePaymentRequest()));
+        }
 
+
+        [Test]
+        public void MakePayment_Should_Return_Response_False_if_Request_not_Valid()
+        {
             _paymentValidator
                 .Setup(validator => validator.IsValid(It.IsAny<MakePaymentRequest>(), It.IsAny<Account>()))
                 .Returns(false);
@@ -46,7 +53,7 @@ namespace ClearBank.DeveloperTest.Tests.Service.Tests
         }
 
         [Test]
-        public void MakePayment_Should_Return_Response_True()
+        public void MakePayment_Should_Return_Response_True_If_Trquest_is_Valid()
         {
 
             _paymentValidator
